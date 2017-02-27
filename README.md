@@ -1,6 +1,6 @@
 # Bullshit Bingo in Elm
 
-A very simple and local implementation of bullshit bingo written in Elm.
+A very simple implementation of bullshit bingo written in Elm. (Note, this is still a WIP)
 
 # Build Instructions
 
