@@ -1,6 +1,6 @@
 module Update exposing (..)
 
-import Model exposing (initialModel)
+import Model.Words exposing (newWords)
 import Model.Word exposing (Word)
 import Model exposing (..)
 
@@ -26,6 +26,6 @@ update msg model =
         NoOp -> 
             (model, Cmd.none)
         NewGame ->
-            (initialModel, Cmd.none)
+            ({ model | words = newWords }, Cmd.none)
         Select word ->
             ({ model | words = toggleSelected model.words word}, Cmd.none)
