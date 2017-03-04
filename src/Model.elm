@@ -1,15 +1,15 @@
 module Model exposing (..)
 
 import Model.Ui exposing (Ui, initialUi)
-import Model.Data exposing (Data, initialData)
+import Model.Words exposing (Words, initialWords)
 
 type alias Model = 
     { ui : Ui
-    , data : Data
+    , words : Words
     }
 
 initialModel : Model
 initialModel = 
     { ui = initialUi
-    , data = initialData
+    , words = initialWords
     }

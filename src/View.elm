@@ -16,5 +16,5 @@ view model =
         ]
         [ titleView
         , optionsView
-        , boardView model.ui.size model.data
+        , boardView model.ui.size model.words
         ]

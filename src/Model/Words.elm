@@ -1,7 +1,7 @@
-module Model.Data exposing (..)
+module Model.Words exposing (..)
 import Model.Word exposing (Word, setWord)
 
-type alias Data =
+type alias Words =
     ( List Word )
 
 createInitialWord : String -> Word
@@ -12,6 +12,6 @@ getWordList : List String
 getWordList =
     ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p"]
 
-initialData : Data
-initialData =
+initialWords : Words
+initialWords =
     List.map createInitialWord getWordList

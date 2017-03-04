@@ -28,4 +28,4 @@ update msg model =
         NewGame ->
             (initialModel, Cmd.none)
         Select word ->
-            ({ model | data = toggleSelected model.data word}, Cmd.none)
+            ({ model | words = toggleSelected model.words word}, Cmd.none)
