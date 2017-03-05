@@ -9161,36 +9161,126 @@ var _user$project$Model_Words$createWord = function (word) {
 };
 var _user$project$Model_Words$newWords = A2(_elm_lang$core$List$map, _user$project$Model_Words$createWord, _user$project$Model_Words$getWordList);
 
-var _user$project$Model_Bingo$checkDiagonal = function (words) {
-	return false;
-};
-var _user$project$Model_Bingo$checkVertical = function (words) {
-	return false;
-};
+var _user$project$Model_Bingo$concat = F2(
+	function (input, output) {
+		var _p0 = output;
+		return A2(_elm_lang$core$Array$append, input, output);
+	});
 var _user$project$Model_Bingo$isTrue = function (word) {
 	return _elm_lang$core$Native_Utils.eq(word.selected, true);
 };
 var _user$project$Model_Bingo$checkHorizontal = function (words) {
-	var array = A3(
-		_elm_lang$core$Array$slice,
-		0,
-		4,
-		_elm_lang$core$Array$fromList(words));
-	var _p0 = A2(
+	var wordsArray = _elm_lang$core$Array$fromList(words);
+	var row1 = A3(_elm_lang$core$Array$slice, 0, 4, wordsArray);
+	var row2 = A3(_elm_lang$core$Array$slice, 4, 8, wordsArray);
+	var row3 = A3(_elm_lang$core$Array$slice, 8, 12, wordsArray);
+	var row4 = A3(_elm_lang$core$Array$slice, 12, 16, wordsArray);
+	return (_elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$Array$length(
+			A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, row1)),
+		4) > -1) || ((_elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$Array$length(
+			A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, row2)),
+		4) > -1) || ((_elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$Array$length(
+			A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, row3)),
+		4) > -1) || (_elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$Array$length(
+			A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, row4)),
+		4) > -1)));
+};
+var _user$project$Model_Bingo$checkVertical = function (words) {
+	var wordsArray = _elm_lang$core$Array$fromList(words);
+	var col1 = A2(
+		_user$project$Model_Bingo$concat,
+		A3(_elm_lang$core$Array$slice, 12, 13, wordsArray),
+		A2(
+			_user$project$Model_Bingo$concat,
+			A3(_elm_lang$core$Array$slice, 8, 9, wordsArray),
+			A2(
+				_user$project$Model_Bingo$concat,
+				A3(_elm_lang$core$Array$slice, 0, 1, wordsArray),
+				A3(_elm_lang$core$Array$slice, 4, 5, wordsArray))));
+	var col2 = A2(
+		_user$project$Model_Bingo$concat,
+		A3(_elm_lang$core$Array$slice, 13, 14, wordsArray),
+		A2(
+			_user$project$Model_Bingo$concat,
+			A3(_elm_lang$core$Array$slice, 9, 10, wordsArray),
+			A2(
+				_user$project$Model_Bingo$concat,
+				A3(_elm_lang$core$Array$slice, 1, 2, wordsArray),
+				A3(_elm_lang$core$Array$slice, 5, 6, wordsArray))));
+	var col3 = A2(
+		_user$project$Model_Bingo$concat,
+		A3(_elm_lang$core$Array$slice, 14, 15, wordsArray),
+		A2(
+			_user$project$Model_Bingo$concat,
+			A3(_elm_lang$core$Array$slice, 10, 11, wordsArray),
+			A2(
+				_user$project$Model_Bingo$concat,
+				A3(_elm_lang$core$Array$slice, 2, 3, wordsArray),
+				A3(_elm_lang$core$Array$slice, 6, 7, wordsArray))));
+	var col4 = A2(
+		_user$project$Model_Bingo$concat,
+		A3(_elm_lang$core$Array$slice, 15, 16, wordsArray),
+		A2(
+			_user$project$Model_Bingo$concat,
+			A3(_elm_lang$core$Array$slice, 11, 12, wordsArray),
+			A2(
+				_user$project$Model_Bingo$concat,
+				A3(_elm_lang$core$Array$slice, 3, 4, wordsArray),
+				A3(_elm_lang$core$Array$slice, 7, 8, wordsArray))));
+	return (_elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$Array$length(
+			A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, col1)),
+		4) > -1) || ((_elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$Array$length(
+			A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, col2)),
+		4) > -1) || ((_elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$Array$length(
+			A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, col3)),
+		4) > -1) || (_elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$Array$length(
+			A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, col4)),
+		4) > -1)));
+};
+var _user$project$Model_Bingo$checkDiagonal = function (words) {
+	var wordsArray = _elm_lang$core$Array$fromList(words);
+	var diag1 = A2(
+		_user$project$Model_Bingo$concat,
+		A3(_elm_lang$core$Array$slice, 15, 16, wordsArray),
+		A2(
+			_user$project$Model_Bingo$concat,
+			A3(_elm_lang$core$Array$slice, 10, 11, wordsArray),
+			A2(
+				_user$project$Model_Bingo$concat,
+				A3(_elm_lang$core$Array$slice, 0, 1, wordsArray),
+				A3(_elm_lang$core$Array$slice, 5, 6, wordsArray))));
+	var _p1 = A2(
 		_elm_lang$core$Debug$log,
 		'Message',
-		_elm_lang$core$Basics$toString(
-			_elm_lang$core$Native_Utils.cmp(
-				_elm_lang$core$Array$length(
-					A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, array)),
-				4) > -1));
-	return _elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$Basics$toString(diag1));
+	var diag2 = A2(
+		_user$project$Model_Bingo$concat,
+		A3(_elm_lang$core$Array$slice, 12, 13, wordsArray),
+		A2(
+			_user$project$Model_Bingo$concat,
+			A3(_elm_lang$core$Array$slice, 9, 10, wordsArray),
+			A2(
+				_user$project$Model_Bingo$concat,
+				A3(_elm_lang$core$Array$slice, 3, 4, wordsArray),
+				A3(_elm_lang$core$Array$slice, 6, 7, wordsArray))));
+	return (_elm_lang$core$Native_Utils.cmp(
 		_elm_lang$core$Array$length(
-			A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, array)),
-		4) > -1;
+			A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, diag1)),
+		4) > -1) || (_elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$Array$length(
+			A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, diag2)),
+		4) > -1);
 };
 var _user$project$Model_Bingo$isBingo = function (words) {
-	return _user$project$Model_Bingo$checkHorizontal(words);
+	return _user$project$Model_Bingo$checkHorizontal(words) || (_user$project$Model_Bingo$checkVertical(words) || _user$project$Model_Bingo$checkDiagonal(words));
 };
 var _user$project$Model_Bingo$initialBingo = false;
 
