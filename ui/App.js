@@ -9161,12 +9161,56 @@ var _user$project$Model_Words$createWord = function (word) {
 };
 var _user$project$Model_Words$newWords = A2(_elm_lang$core$List$map, _user$project$Model_Words$createWord, _user$project$Model_Words$getWordList);
 
-var _user$project$Model$initialModel = {ui: _user$project$Model_Ui$initialUi, words: _user$project$Model_Words$initialWords};
-var _user$project$Model$Model = F2(
-	function (a, b) {
-		return {ui: a, words: b};
+var _user$project$Model_Bingo$checkDiagonal = function (words) {
+	return false;
+};
+var _user$project$Model_Bingo$checkVertical = function (words) {
+	return false;
+};
+var _user$project$Model_Bingo$isTrue = function (word) {
+	return _elm_lang$core$Native_Utils.eq(word.selected, true);
+};
+var _user$project$Model_Bingo$checkHorizontal = function (words) {
+	var array = A3(
+		_elm_lang$core$Array$slice,
+		0,
+		4,
+		_elm_lang$core$Array$fromList(words));
+	var _p0 = A2(
+		_elm_lang$core$Debug$log,
+		'Message',
+		_elm_lang$core$Basics$toString(
+			_elm_lang$core$Native_Utils.cmp(
+				_elm_lang$core$Array$length(
+					A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, array)),
+				4) > -1));
+	return _elm_lang$core$Native_Utils.cmp(
+		_elm_lang$core$Array$length(
+			A2(_elm_lang$core$Array$filter, _user$project$Model_Bingo$isTrue, array)),
+		4) > -1;
+};
+var _user$project$Model_Bingo$isBingo = function (words) {
+	return _user$project$Model_Bingo$checkHorizontal(words);
+};
+var _user$project$Model_Bingo$initialBingo = false;
+
+var _user$project$Model$initialModel = {ui: _user$project$Model_Ui$initialUi, words: _user$project$Model_Words$initialWords, bingo: _user$project$Model_Bingo$initialBingo};
+var _user$project$Model$Model = F3(
+	function (a, b, c) {
+		return {ui: a, words: b, bingo: c};
 	});
 
+var _user$project$Update$checkBingo = function (model) {
+	return {
+		ctor: '_Tuple2',
+		_0: _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				bingo: _user$project$Model_Bingo$isBingo(model.words)
+			}),
+		_1: _elm_lang$core$Platform_Cmd$none
+	};
+};
 var _user$project$Update$toggleSelected = F2(
 	function (words, word) {
 		var toggle = function (listWord) {
@@ -9175,6 +9219,14 @@ var _user$project$Update$toggleSelected = F2(
 				{selected: !listWord.selected}) : listWord;
 		};
 		return A2(_elm_lang$core$List$map, toggle, words);
+	});
+var _user$project$Update$selectWord = F2(
+	function (model, word) {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				words: A2(_user$project$Update$toggleSelected, model.words, word)
+			});
 	});
 var _user$project$Update$update = F2(
 	function (msg, model) {
@@ -9191,15 +9243,8 @@ var _user$project$Update$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							words: A2(_user$project$Update$toggleSelected, model.words, _p0._0)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
+				return _user$project$Update$checkBingo(
+					A2(_user$project$Update$selectWord, model, _p0._0));
 		}
 	});
 var _user$project$Update$Select = function (a) {
@@ -9259,6 +9304,33 @@ var _user$project$View_Header$titleView = A2(
 		_1: {ctor: '[]'}
 	});
 
+var _user$project$View_Board$boardBingoVisible = function (isBingo) {
+	var _p0 = isBingo;
+	if (_p0 === true) {
+		return 'visible';
+	} else {
+		return 'hidden';
+	}
+};
+var _user$project$View_Board$boardBingoView = function (isBingo) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('bingocontainer'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class(
+					_user$project$View_Board$boardBingoVisible(isBingo)),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Bingo!'),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$View_Board$boardWordView = function (word) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9275,8 +9347,8 @@ var _user$project$View_Board$boardWordView = function (word) {
 		});
 };
 var _user$project$View_Board$boardTileClass = function (word) {
-	var _p0 = word.selected;
-	if (_p0 === true) {
+	var _p1 = word.selected;
+	if (_p1 === true) {
 		return 'selected';
 	} else {
 		return '';
@@ -9306,20 +9378,43 @@ var _user$project$View_Board$boardTileView = function (word) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$View_Board$boardView = function (words) {
-	return A2(
-		_elm_lang$html$Html$section,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$id('gameboard'),
-			_1: {
+var _user$project$View_Board$boardView = F2(
+	function (words, bingo) {
+		return A2(
+			_elm_lang$html$Html$section,
+			{ctor: '[]'},
+			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('boardcontainer'),
-				_1: {ctor: '[]'}
-			}
-		},
-		A2(_elm_lang$core$List$map, _user$project$View_Board$boardTileView, words));
-};
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('bingocontainer'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _user$project$View_Board$boardBingoView(bingo),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$id('gameboard'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('boardcontainer'),
+								_1: {ctor: '[]'}
+							}
+						},
+						A2(_elm_lang$core$List$map, _user$project$View_Board$boardTileView, words)),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
 
 var _user$project$View$view = function (model) {
 	return A2(
@@ -9341,7 +9436,7 @@ var _user$project$View$view = function (model) {
 				_0: _user$project$View_Header$titleView,
 				_1: {
 					ctor: '::',
-					_0: _user$project$View_Board$boardView(model.words),
+					_0: A2(_user$project$View_Board$boardView, model.words, model.bingo),
 					_1: {ctor: '[]'}
 				}
 			}

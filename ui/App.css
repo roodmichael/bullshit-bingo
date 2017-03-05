@@ -1,6 +1,13 @@
 .container {
     width: 500px;
 }
+.container .bingocontainer {}
+.container .bingocontainer .hidden {
+    display: none;
+}
+.container .bingocontainer .visible {
+    display: visible;
+}
 .container .titlecontainer {
     display: flex;
     align-items: center;

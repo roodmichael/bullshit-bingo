@@ -16,5 +16,5 @@ view model =
         ]
         [ optionsView
         , titleView
-        , boardView model.words
+        , boardView model.words model.bingo
         ]

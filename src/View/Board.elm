@@ -6,14 +6,21 @@ import Html.Events exposing (onClick)
 
 import Update exposing (..)
 import Model.Word exposing (Word)
+import Model.Bingo exposing (Bingo)
 
-boardView : List Word -> Html Msg
-boardView words =
+boardView : List Word -> Bingo -> Html Msg
+boardView words bingo =
     section
-        [ id "gameboard"
-        , class "boardcontainer"
+        []
+        [ div 
+            [ class "bingocontainer" ]
+            [ boardBingoView bingo ]
+        , div 
+            [ id "gameboard"
+            , class "boardcontainer"
+            ]
+            (List.map boardTileView words)
         ]
-        (List.map boardTileView words)
 
 boardTileClass : Word -> String
 boardTileClass word =
@@ -37,3 +44,19 @@ boardWordView word =
     div
         [ class "word"]
         [ text (toString word)]
+
+boardBingoVisible : Bingo -> String 
+boardBingoVisible isBingo =
+    case isBingo of 
+        True ->
+            "visible"
+        False ->
+            "hidden"
+
+boardBingoView : Bool -> Html Msg 
+boardBingoView isBingo =
+    div 
+        [ class "bingocontainer"
+        , class (boardBingoVisible isBingo)
+        ]
+        [ text "Bingo!" ]

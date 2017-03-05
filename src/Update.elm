@@ -2,6 +2,7 @@ module Update exposing (..)
 
 import Model.Words exposing (newWords)
 import Model.Word exposing (Word)
+import Model.Bingo exposing (isBingo)
 import Model exposing (..)
 
 type Msg 
@@ -28,4 +29,13 @@ update msg model =
         NewGame ->
             ({ model | words = newWords }, Cmd.none)
         Select word ->
-            ({ model | words = toggleSelected model.words word}, Cmd.none)
+            selectWord model word
+            |> checkBingo
+
+selectWord : Model -> Word -> (Model)
+selectWord model word =
+    { model | words = toggleSelected model.words word}
+
+checkBingo : (Model) -> (Model, Cmd Msg)
+checkBingo model=
+    ({ model | bingo = isBingo model.words}, Cmd.none)
