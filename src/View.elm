@@ -14,7 +14,7 @@ view model =
         [ id "appcontainer"
         , class "container"
         ]
-        [ titleView
-        , optionsView
-        , boardView model.ui.size model.words
+        [ optionsView
+        , titleView
+        , boardView model.words
         ]

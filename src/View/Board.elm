@@ -7,24 +7,33 @@ import Html.Events exposing (onClick)
 import Update exposing (..)
 import Model.Word exposing (Word)
 
-boardView : Int -> List Word -> Html Msg
-boardView size words =
+boardView : List Word -> Html Msg
+boardView words =
     section
         [ id "gameboard"
         , class "boardcontainer"
         ]
-        [ boardRowView size words ]
+        (List.map boardTileView words)
 
-boardRowView : Int -> List Word -> Html Msg 
-boardRowView size words = 
-    div 
-        [ class "rowcontainer" ]
-        (List.map boardWordView words)
+boardTileClass : Word -> String
+boardTileClass word =
+    case word.selected of
+        True ->
+            "selected"
+        False ->
+            ""
 
-boardWordView : Word -> Html Msg 
-boardWordView word = 
+boardTileView : Word -> Html Msg 
+boardTileView word =
     div 
         [ class "tilecontainer"
+        , class (boardTileClass word)
         , onClick (Select word)
         ]
+        [ boardWordView word.word ]
+
+boardWordView : String -> Html Msg
+boardWordView word =
+    div
+        [ class "word"]
         [ text (toString word)]

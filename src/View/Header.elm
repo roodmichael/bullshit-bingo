@@ -10,9 +10,9 @@ titleView : Html Msg
 titleView = 
     section
         []
-        [h1
-            [ id "gametitle"
-            , class "title"
+        [div
+            [ id "title"
+            , class "titlecontainer"
             ]
             [ text "Bullshit Bingo!"
             ]
@@ -21,7 +21,9 @@ titleView =
 optionsView : Html Msg 
 optionsView = 
     section
-        [ id "gameoptions"]
+        [ id "options"
+        , class "optionscontainer"
+        ]
         [ button
             [onClick NewGame]
             [text "Start/Refresh"]
