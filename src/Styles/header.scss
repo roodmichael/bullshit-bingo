@@ -1,0 +1,13 @@
+$container-height: 75px;
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: $container-height;
+    font-size: $font-size-xlarge;
+
+    &.is-bingo {
+        color: $highlight-color;
+    }
+}

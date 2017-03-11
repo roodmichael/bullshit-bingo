@@ -1,0 +1,26 @@
+$tile-container-width: 120px;
+$tile-container-height: 120px;
+
+.board-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .tile-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: $tile-container-width;
+        height: $tile-container-height;
+        background: $alternative-color;
+        color: $dark-color;
+        border: solid $dark-color 1px;
+        margin-left: -1px;
+        margin-bottom: -1px;
+
+        &.selected {
+            background: $dark-color;
+            color: $light-color;
+        }
+    }
+}

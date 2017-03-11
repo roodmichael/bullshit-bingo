@@ -1,7 +1,7 @@
 'use strict';
 
 require('../index.html');
-require('./Styles/App.css');
+require('./Styles/index.scss');
 
 var Elm = require('./Main.elm');
 var mountNode = document.getElementById('main');

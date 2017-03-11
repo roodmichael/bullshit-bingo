@@ -1,0 +1,11 @@
+
+@import "variables";
+
+@import "header";
+@import "board";
+
+$container-width: 500px;
+
+.container {
+    width: $container-width;
+}

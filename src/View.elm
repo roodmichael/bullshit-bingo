@@ -15,6 +15,6 @@ view model =
         , class "container"
         ]
         [ optionsView
-        , titleView
-        , boardView model.words model.bingo
+        , titleView model.bingo
+        , boardView model.words
         ]
