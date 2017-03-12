@@ -35,4 +35,4 @@ newWords =
 
 initialWords : Words
 initialWords =
-    []
+    newWords

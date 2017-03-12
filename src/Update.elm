@@ -1,6 +1,5 @@
 module Update exposing (..)
 
-import Model.Words exposing (newWords)
 import Model.Word exposing (Word)
 import Model.Bingo exposing (isBingo)
 import Model exposing (..)
@@ -27,7 +26,7 @@ update msg model =
         NoOp -> 
             (model, Cmd.none)
         NewGame ->
-            ({ model | words = newWords }, Cmd.none)
+            (initialModel, Cmd.none)
         Select word ->
             selectWord model word
             |> checkBingo

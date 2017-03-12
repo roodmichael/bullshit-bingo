@@ -18,9 +18,16 @@ $tile-container-height: 120px;
         margin-left: -1px;
         margin-bottom: -1px;
 
+        .word {
+            font-size: $font-size-normal;
+            color: $dark-color;
+        }
+
         &.selected {
             background: $dark-color;
-            color: $light-color;
+            .word {
+                color: $light-color;
+            }
         }
     }
 }
