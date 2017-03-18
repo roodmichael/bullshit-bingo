@@ -69,13 +69,40 @@ checkColumns words height columns =
                     True 
                 else
                     checkColumns words height rest
+    
+checkDiagonal : Words -> Int -> List Word -> Bool
+checkDiagonal words base list =
+    let 
+        tile = List.take 1 words
+        rest = List.drop (base + 1) words
+        diag = List.concat [list, tile]
+    in 
+        case rest of 
+            [] ->
+                if (hasBingo diag base) then
+                    True
+                else
+                    False
+            default ->
+                checkDiagonal rest base diag
 
-checkDiagonals : Words -> Int -> List Int -> Bool
-checkDiagonals words height columns =
-    case columns of
-        [] -> False 
-        first :: rest ->
-            False
+checkDiagonalReverse : Words -> Int -> Int -> List Word -> Bool
+checkDiagonalReverse words base iterator list =
+    let 
+        throw = List.drop (base - iterator) words
+        tile = List.take 1 throw
+        rest = List.drop base words
+        diag = List.concat [list, tile]
+        nextiterator = iterator + 1
+    in 
+        case rest of 
+            [] ->
+                if (hasBingo diag base) then
+                    True 
+                else 
+                    False
+            default ->
+                checkDiagonalReverse rest base nextiterator diag
 
 isBingo : Words -> Bool
 isBingo words =
@@ -85,4 +112,5 @@ isBingo words =
     in
         checkRows words base
         || checkColumns words base columns
-    --|| checkDiagonal words
+        || checkDiagonal words base []
+        || checkDiagonalReverse words base 1 []
