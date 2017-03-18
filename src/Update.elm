@@ -31,10 +31,10 @@ update msg model =
             selectWord model word
             |> checkBingo
 
-selectWord : Model -> Word -> (Model)
+selectWord : Model -> Word -> Model
 selectWord model word =
     { model | words = toggleSelected model.words word}
 
-checkBingo : (Model) -> (Model, Cmd Msg)
+checkBingo : Model -> (Model, Cmd Msg)
 checkBingo model=
     ({ model | bingo = isBingo model.words}, Cmd.none)

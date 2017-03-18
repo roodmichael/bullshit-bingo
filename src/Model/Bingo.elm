@@ -3,8 +3,6 @@ module Model.Bingo exposing (..)
 import Model.Words exposing (Words)
 import Model.Word exposing (Word)
 
-import Array
-
 type alias Bingo =
     (Bool)
 
@@ -12,70 +10,79 @@ initialBingo : Bingo
 initialBingo =
     False
 
-isTrue : Word -> Bool
-isTrue word =
-    word.selected == True
+isSelected : Word -> Int
+isSelected word =
+    case word.selected of 
+        False ->
+            0
+        True ->
+            1
 
-checkHorizontal : Words -> Bool
-checkHorizontal words =
-    let 
-        wordsArray = Array.fromList words
-        row1 = Array.slice 0 4 wordsArray
-        row2 = Array.slice 4 8 wordsArray
-        row3 = Array.slice 8 12 wordsArray
-        row4 = Array.slice 12 16 wordsArray
-    in 
-        (Array.length (Array.filter isTrue row1)) >= 4
-        || (Array.length (Array.filter isTrue row2)) >= 4
-        || (Array.length (Array.filter isTrue row3)) >= 4
-        || (Array.length (Array.filter isTrue row4)) >= 4
+countSelected : Words -> Int
+countSelected words =
+    case words of
+        [] ->
+            0
+        word :: rest ->
+              (isSelected word) + countSelected rest
 
-concat : Array.Array Word -> Array.Array Word-> Array.Array Word
-concat input output = 
-    case output of 
-        xs ->
-            Array.append input output
+hasBingo : Words -> Int -> Bool
+hasBingo words base =
+    countSelected words == base
 
-
-checkVertical : Words -> Bool
-checkVertical words =
-    let 
-        wordsArray = Array.fromList words
-        col1 = concat (Array.slice 0 1 wordsArray) (Array.slice 4 5 wordsArray)
-             |> concat (Array.slice 8 9 wordsArray)
-             |> concat (Array.slice 12 13 wordsArray)
-        col2 = concat (Array.slice 1 2 wordsArray) (Array.slice 5 6 wordsArray)
-             |> concat (Array.slice 9 10 wordsArray)
-             |> concat (Array.slice 13 14 wordsArray)
-        col3 = concat (Array.slice 2 3 wordsArray) (Array.slice 6 7 wordsArray)
-             |> concat (Array.slice 10 11 wordsArray)
-             |> concat (Array.slice 14 15 wordsArray)
-        col4 = concat (Array.slice 3 4 wordsArray) (Array.slice 7 8 wordsArray)
-             |> concat (Array.slice 11 12 wordsArray)
-             |> concat (Array.slice 15 16 wordsArray)
-    in 
-        Array.length (Array.filter isTrue col1) >= 4
-        || Array.length (Array.filter isTrue col2) >= 4
-        || Array.length (Array.filter isTrue col3) >= 4
-        || Array.length (Array.filter isTrue col4) >= 4
-
-checkDiagonal : Words -> Bool
-checkDiagonal words =
+checkRows : Words -> Int -> Bool
+checkRows words width =
     let
-        wordsArray = Array.fromList words
-        diag1 = concat (Array.slice 0 1 wordsArray) (Array.slice 5 6 wordsArray)
-             |> concat (Array.slice 10 11 wordsArray)
-             |> concat (Array.slice 15 16 wordsArray)
-        diag2 = concat (Array.slice 3 4 wordsArray) (Array.slice 6 7 wordsArray)
-             |> concat (Array.slice 9 10 wordsArray)
-             |> concat (Array.slice 12 13 wordsArray)
-        _ = Debug.log "Message" (toString diag1)
+      row = List.take width words
+      rest = List.drop width words
     in
-        Array.length (Array.filter isTrue diag1) >= 4
-        || Array.length (Array.filter isTrue diag2) >= 4
+      case row of
+        [] ->
+            False
+        default ->
+            if (hasBingo row width) then
+                True
+            else
+                checkRows rest width
+
+pickColumn : Words -> Int -> Int -> Words
+pickColumn words width column =
+    let 
+        row = List.take width words 
+        rest = List.drop width words
+        tile = List.take 1 (List.drop (column - 1) row)
+    in
+        case words of 
+            [] -> []
+            default ->
+                List.concat [tile, pickColumn rest width column]
+
+checkColumns : Words -> Int -> List Int -> Bool
+checkColumns words height columns =
+    case columns of 
+        [] -> False 
+        first :: rest ->
+            let 
+                column = pickColumn words height first
+            in 
+                if (hasBingo column height) then
+                    True 
+                else
+                    checkColumns words height rest
+
+checkDiagonals : Words -> Int -> List Int -> Bool
+checkDiagonals words height columns =
+    case columns of
+        [] -> False 
+        first :: rest ->
+            False
 
 isBingo : Words -> Bool
 isBingo words =
-    checkHorizontal words
-    || checkVertical words
-    || checkDiagonal words
+    let
+        base = truncate (sqrt (toFloat (List.length words)))
+        columns = List.range 1 base
+    in
+        checkRows words base
+        || checkColumns words base columns
+    --|| checkDiagonal words
