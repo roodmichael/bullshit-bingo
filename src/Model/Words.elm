@@ -1,6 +1,7 @@
 module Model.Words exposing (..)
 
 import Model.Word exposing (Word, setWord)
+import Proxy.WordsProxy exposing (getWords)
 
 import Random
 import List
@@ -13,10 +14,6 @@ createWord : String -> Word
 createWord word =
     setWord word False
 
-getWordList : List String 
-getWordList =
-    shuffleWordList ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p"]
-
 shuffleWordList : List String -> List String
 shuffleWordList words =
     let
@@ -28,6 +25,10 @@ shuffleWordList words =
         final = List.unzip sorted |> second
     in
         final
+
+getWordList : List String 
+getWordList =
+    shuffleWordList (getWords 16)
 
 newWords : Words
 newWords =

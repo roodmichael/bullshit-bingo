@@ -39,4 +39,4 @@ boardWordView : String -> Html Msg
 boardWordView word =
     div
         [ class "word"]
-        [ text (toString word)]
+        [ text word]
