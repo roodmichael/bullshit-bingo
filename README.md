@@ -4,6 +4,10 @@ A very simple and local implementation of bullshit bingo written in Elm. Uses we
 
 Note: This is still a WIP.
 
+# Demo
+
+To view the game in browser [go here](http://htmlpreview.github.io/?https://github.com/roodmichael/bullshit-bingo/blob/master/dist/index.html).
+
 # Build Instructions
 
 You will need to install webpack dependencies defined in package.json. Run:
