@@ -3,3 +3,4 @@ node_modules
 elm-stuff
 *.elmi
 index.html
+!dist/index.html
